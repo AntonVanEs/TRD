@@ -1,0 +1,103 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper]{geometry}
+\usepackage{lscape}
+\usepackage[utf8]{inputenc}
+\usepackage[dutch]{babel}
+%\usepackage[pdftex]{graphicx}
+
+\usepackage{multicol}
+\setlength{\columnsep}{18pt}
+\setlength{\columnseprule}{0pt}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks,%
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=black,%
+pdftex}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings}
+\lstset{
+	showstringspaces=false,
+	columns=[l]fixed,
+	keepspaces=true,
+	tabsize=4,
+	language=C++,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	frame=leftline,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{Maroon},
+	commentstyle=\color{MidnightBlue}}
+
+\usepackage{a4wide}
+%\usepackage{bbding}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+
+\DeclareMathOperator{\bigO}{\mathcal{O}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\bor}{\cup}
+
+\newcommand{\yes}{\raisebox{-1mm}{\textcolor{green!60!black}{\Checkmark}}}
+\newcommand{\no}{\raisebox{-1mm}{\textcolor{red}{\XSolidBrush}}}
+\newcommand{\Oh}[1]{\ensuremath{\mathcal O(#1)}}
+\newcommand{\gr}[1]{\textcolor{gray}{#1}}
+
+\title{Handleiding Testsessie}
+\author{\input{teamnaam.tex}}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{De Judge:}
+
+\begin{enumerate}
+\item Test alle foutmeldingen in de handleiding. In ieder geval: correct, te veel geheugen, te veel tijd (te veel CPU-tijd en te veel echte tijd (door wachten op onbestaande invoer)), compile error en segfault.
+\item Indien van toepassing, test op floating point fouten (verkeerde afronding).
+\item Werkt het printen? Hoe?
+\item Werkt C++11 submission? Welke extensie is er nodig (.cxx of .cpp)
+\item Welke C++11 features doen het?
+\item Werkt \_\_int128\_t? (ook lokaal)
+%nieuwe bijdrage unreadable
+\item Werkt python? werken \texttt{numpy}, \texttt{datetime}, \texttt{math}, \texttt{heapq}
+\item Wordt output naar \texttt{cerr} door de judge genegeerd?
+\end{enumerate}
+
+\noindent\textbf{De Computer:}
+
+\begin{enumerate}
+\item Doet het toetsenbord het? (ons eigen toetsenbord)
+\item Doet de compiler het zoals verwacht?
+\item Werkt GDB?
+\item Kan GDB ook de STL debuggen?
+\item Is er iets simpels om mee te rekenen, zoals Python?
+\item Is er documentatie voor C++? Waar? Welke?
+\item Gaat het compileren sneller met andere switches (zonder \verb|-static|, met \verb|-pipe|)?
+\item Staan de samples op de machine? Waar?
+\item Doen de gewenste editors het?
+\item Hebben we een profiler?
+\end{enumerate}
+
+\noindent\textbf{Overige:}
+
+\begin{enumerate}
+\item Is er een URL voor de examples en zo ja, werkt die?
+\item Waar zijn de versnaperingen en het toilet?
+\item Leg de TCR klaar voor controle indien nodig.
+\end{enumerate}
+
+
+\end{document}

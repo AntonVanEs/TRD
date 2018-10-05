@@ -1,0 +1,4 @@
+#define AANTAL_CASES 100
+#define LENGTE 100
+
+#define DIVERSE_ANDERE_ONZIN

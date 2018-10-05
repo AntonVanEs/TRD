@@ -1,0 +1,10 @@
+CXXFLAGS=-std=c++0x -Wall -Wextra -O2 -ggdb
+
+test: prog
+	touch test
+
+prog: prog.cpp ../../parts/suffix_array.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $(OUTPUT_OPTION) $<
+
+clean:
+	rm -f mine.txt prog test

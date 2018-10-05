@@ -1,0 +1,22 @@
+#!/bin/bash
+
+TESTF=~/final_samples
+
+c++ -g -o $1 $1.cc || {
+	echo "COMPILE ERROR"
+	exit
+}
+
+for filen in $TESTF/$2/*.in; do
+	./$1 < $filen > out.tst || {
+		echo "RUN ERROR"
+		exit
+	}
+	diff out.tst "${filen%.in}.ans" > /dev/null 2>/dev/null || {
+		echo "Output":
+		cat $filen
+		echo "Diff:"
+		diff out.tst "${filen%.in}.ans" -y
+	}
+	rm ./out.tst
+done

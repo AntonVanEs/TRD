@@ -1,0 +1,8 @@
+=== Testen bevatte code ===
+Tests van de code kunnen uitgevoerd worden door middel van make test.
+
+=== TRD genereren ===
+De TRD kan gegenereerd worden met "pdflatex trd.tex" (of iets dergelijks).
+Daarvoor moet wel eerst het bestand "teamnaam.tex" bestaan met daarin de naam
+van het team. Tevens moet er het bestand "universiteit.tex" bestaan met de naam
+van de universiteit.
