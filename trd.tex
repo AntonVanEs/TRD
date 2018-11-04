@@ -189,10 +189,13 @@ return lo;
 \end{lstlisting}
 \fi
 
-\section{Fenwick tree}
+\section{Bomen}
+\iffalse
+\subsection{Fenwick tree}
 
 Het array is 1-based. Er geldt \verb.LSONE(i) = i & (-i). Bij updaten: zolang \verb.i <= n., update \verb.s[i]. en \verb.i += LSOne(i).. Bij sommeren: zolang \verb.i >= 0., tel \verb.f[i]. bij het antwoord op en doe \verb.i += LSOne(i)..
 
+\fi
 \iffalse
 \[
 \underbrace{
@@ -208,9 +211,39 @@ Bedenkend dat \lstinline{i |= i+1} de minst-significante 0 van $i$ op 1 zet, en 
 Voor gerelateerde toepassingen kan het makkelijker zijn om een binaire boom met $2n-1$ knopen en $n$ bladeren te gebruiken.
 \fi
 
-\section{Segment tree}
+\subsection{Segment tree}
 Onderstaande code werkt voor het dynamische Range Minimum Query probleem. Range updates kunnen worden geimplementeerd met lazy propagation: houd bij of een segment volledig naar een bepaalde waarde ge\"updated moet worden.
 \lstinputlisting{parts/segmenttree.cpp}
+
+\subsection{Minimal spanning tree}
+
+%\subsubsection{Kruskals algoritme}
+
+\lstinputlisting{parts/kruskal.cpp}
+Voor een efficiënte implementatie van \lstinline{init}, \lstinline{merge} en \lstinline{representant} is een of andere Disjoint-Set datastructuur handig. 
+
+\subsection{UFDS}
+Een Disjoint-Set Forest (met amortized $\bigO(\alpha(n))$-tijd per operatie, met $\alpha$ de inverse van de Ackermann functie):
+\lstinputlisting{parts/unionfind.cpp}
+
+\iffalse
+\subsection{Kosaraju's algoritme voor SCC's}
+For each vertex u of the graph, mark u as unvisited. Let L be empty. For each vertex u of the graph do Visit(u), where Visit(u) is the recursive subroutine:
+\begin{verbatim}
+If u is unvisited then:
+Mark u as visited.
+For each out-neighbour v of u, do Visit(v).
+Prepend u to L.
+Otherwise do nothing.
+\end{verbatim}
+For each element u of L in order, do Assign(u,u) where Assign(u,root) is the recursive subroutine:
+\begin{verbatim}
+If u has not been assigned to a component then:
+Assign u as belonging to the component whose root is root.
+For each in-neighbour v of u, do Assign(v,root).
+Otherwise do nothing.
+\end{verbatim}
+\fi
 
 
 \section{Grafen}
@@ -223,12 +256,45 @@ DFS heeft vele toepassingen. Bij sommige van deze dingen willen we knopen als ac
 \item Ongerichte cykels: als een reeds actieve, of voltooide knoop wordt ontwikkeld.
 \end{itemize}
 
+($\bigO(V+E)$ en $\bigO(V^2)$)
+\begin{lstlisting}
+vector<vi> AdjList //Adjacency list
+
+vi dfs_num; //set all values to UNVISITED
+void dfs(int u){
+ii v;
+dfs_num[u] = VISITED;
+for(int j = 0; j < AdjList[u].size(); j++){
+v = AdjList[u][j];
+if (dfs_num[v] == UNVISITED){
+dfs(v);DFS
+}	}	}
+\end{lstlisting}
+
+\subsection{Breadth first search}
+($\bigO(V+E)$ en $\bigO(V^2)$)
+
+\begin{lstlisting}
+vector<vi> AdjList //Adjacency list
+vi d(V, INF); d[s] = 0;
+queue<int> q; q.push(s);
+int u,v;
+while(!q.empty()){
+u = q.front(); q.pop(); // get the first element from our queue
+for(int j = 0; j < AdjList[u].size(); j++){
+v = AdjList[u][j]
+if(d[v] == INF){ //test if unvisited
+d[v] = d[u] + 1; //mark our visit
+q.push(v);
+}	}	}
+\end{lstlisting}
+
+
 \subsection{Topologisch sorteren}
 
 Laat de globale variabele \texttt{n} het aantal punten van een graaf zijn.
 De volgende code registreert de finishvolgorde van de knopen in een globale variable \lstinline{vector<int> finished}. Hiermee is $\text{\lstinline{finished[n-1]}} < \cdots < \text{\lstinline{finished[0]}}$ een topologische sortering van de knooppunten.
 
-\iffalse \begin{lstlisting}\end{lstlisting}\fi
 \subsection{2-SAT}
 
 De code gaat ervanuit dat er \lstinline{n} knopen zijn, waarbij knopen $2i$ en $2i+1$ elkaars negatie zijn. De functie retourneert of er een oplossing is. Als er een oplossing is, dan is \lstinline{val[comp[i]]} de valuatie van knoop $i$ in een oplossing.
@@ -279,7 +345,6 @@ Nota Bene: deze implementatie ondersteunt slechts paden van hoogstens \lstinline
 
 \lstinputlisting{parts/bellmanford.cpp}
 
-\iffalse
 \subsubsection{Floyd-Warshall}
 Floyd-Warshall vindt de lengtes van de paden van elke knoop naar elke andere knoop.
 
@@ -293,10 +358,7 @@ for k = 1 to n {
 }
 \end{lstlisting}
 
-
-\fi
-
-
+\iffalse
 \subsubsection{Afwijkende applicaties}
 Een aantal andere problemen is op te lossen met (aanpassingen van) kortste pad algoritmen:
 
@@ -309,6 +371,7 @@ We passen het algoritme van Dijkstra aan. We kiezen nu telkens het punt met maxi
 
 \end{itemize}
 
+\fi
 
 \subsection{Flow netwerken}
 
@@ -323,44 +386,12 @@ De Edomond-Karp implementatie van Ford-Fulkerson (mbv BFS)
 Als je na max-flow kijk naar alle knopen die je kan berijken vanaf de scoure via positieve ($\not=0$) takken kan bereiken, heb je een min-cut
 De min-cut wordt ge\"{i}nduceerd door de verzameling punten die bereikbaar zijn vanuit de bron. Bedenk dat dit in principe al in de mark array staat na \texttt{ford\_fulkerson}.
 
-\iffalse
-\subsection{Minimal spanning tree}
-
-\subsubsection{Kruskals algoritme}
-
-\lstinputlisting{parts/kruskal.cpp}
-Voor een efficiënte implementatie van \lstinline{init}, \lstinline{merge} en \lstinline{representant} is een of andere Disjoint-Set datastructuur handig. 
-\fi
-\subsection{UFDS}
-Een Disjoint-Set Forest (met amortized $\bigO(\alpha(n))$-tijd per operatie, met $\alpha$ de inverse van de Ackermann functie):
-\lstinputlisting{parts/unionfind.cpp}
-
-\iffalse
-\subsection{Kosaraju's algoritme voor SCC's}
-For each vertex u of the graph, mark u as unvisited. Let L be empty. For each vertex u of the graph do Visit(u), where Visit(u) is the recursive subroutine:
-\begin{verbatim}
-        If u is unvisited then:
-            Mark u as visited.
-            For each out-neighbour v of u, do Visit(v).
-            Prepend u to L.
-        Otherwise do nothing.
-\end{verbatim}
-For each element u of L in order, do Assign(u,u) where Assign(u,root) is the recursive subroutine:
-\begin{verbatim}
-        If u has not been assigned to a component then:
-            Assign u as belonging to the component whose root is root.
-            For each in-neighbour v of u, do Assign(v,root).
-        Otherwise do nothing.
-\end{verbatim}
-\fi
-
-
 \section{Computational Geometry}
 
 \subsection{Geometry}
 %\lstinputlisting{parts/geom.cpp}
 \lstinputlisting{parts/geom_lines.cc}
-\iffalse
+
 \subsection{Projecties}
 \lstinputlisting{parts/dot.cpp}
 De projectie $p(x,y)$ van $x\in\R^n$ op $y\in\R^n$ wordt gegeven door:
@@ -382,7 +413,7 @@ Om een vector $(x,y)\in\R^2$ precies $\theta$ graden in positieve richting te dr
 	\end{pmatrix}.
 \end{align*}
 
-\fi 
+
 \begin{wrapfigure}{r}{.34\textwidth}
 	\centering
 	\vspace{-1cm}
@@ -565,24 +596,16 @@ Als alle punten op een lijn liggen, dan krijgen we eindpunten eenmaal en interne
 
 %TODO \section{Linear Programming}
 
-\section{Strings}
-\subsection{Stringstream}
-\begin{lstlisting}
-stringstream ss;
-//add to ss
-ss << myString; //or char, int, double, etc.
-//read from ss
-ss >> myString; //or char, int, double, etc.
-//convert to string
-string s = ss.str();
-\end{lstlisting}
+\section{Strings} 
+
 \subsection{String Matching}
 
 \lstinputlisting{parts/kmp.cpp}
-
+\iffalse
 \subsection{Multistring matching}
 
 \lstinputlisting{parts/ahocorasick.cpp}
+\fi
 \iffalse
 \subsection{Suffix Array}
 
@@ -641,6 +664,9 @@ De volgende code implementeert een deterministische versie van Miller-Rabin:
 
 \lstinputlisting{parts/isprime.cpp}
 
+Dit gebruiken we om te voorkomen dat we grote priemgetallen in Pollards-Rho gaan gooien
+\lstinputlisting{parts/Pollardsrho.cpp}
+
 \subsection{Partitiefunctie}
 
 De partitiefunctie geeft het aantal manieren dat een getal $n$ opgedeeld kan worden in positieve getallen als volgorde niet uitmaakt, zodanig dat de som weer $n$ is.
@@ -696,6 +722,7 @@ Neem al aan dat de inputgrootte een macht van $2$ is. Bij gebruik voor integers 
 \item Probeer Greedy
 \item Dynamic Programming
 \item (Mincost)Maxflow
+\item longest increasing subsequence
 \item Kan je de graaf bipartiet krijgen?
 \item Precalculeren
 \item Inclusion/Exclusion
@@ -709,6 +736,7 @@ Neem al aan dat de inputgrootte een macht van $2$ is. Bij gebruik voor integers 
 \begin{multicols}{2}
 \begin{itemize}[noitemsep,nolistsep]
 %\item Initialiseer alle variabelen voor elk testcase!!! Dus ook STL DSen clearen/resize(0)
+\item Maak je aannamens die niet in de probleembeschrijving staan?
 \item Kijk uit voor variabelen met dezelfde naam.
 \item Geef je altijd de juiste uitvoer? (e.g.: geen pad, print \"{}impossible\"{})
 \item Ergens een overflow? Array out of bounds?
@@ -737,12 +765,47 @@ $\begin{array}{|c|c|c|c|}
 
 
 %TOEVOEGING ANTON JORIS DEEVID
-1
 
-\renewcommand{\bigO}[1]{$\O(#1)$}
 %\lstset{language=c++,tabsize=4,frame=single} 
 
 \section{Toevoegingen sudo ku}
+
+
+
+\subsection{Binairy search}
+binairy search (voor een funcie \emph{can} die \emph{false} is voor $x < ans$ en \emph{true} voor $x\geq ans$)
+
+\begin{lstlisting}
+bool can(double x){
+//test is x is a solution (or larger that the solution)
+}
+...
+//instide main()
+double lo = 0.0, hi = 100000.0, mid = 0.0, ans = 0.0;
+double eps = 0.01;
+
+while(fabs(hi-lo) > eps){
+mid = (lo + hi) / 2.0;
+if(can(mid)) {ans = mid; high = mid;} 
+//save the answer, look for smaller solution
+else {lo = mid;} //look for larger solution
+}
+\end{lstlisting}
+sort using a custom function object
+\begin{lstlisting}
+struct {
+bool operator()(int a, int b) const{   
+return a < b;
+}   
+} customLess;
+
+array<int, 10> s = {5, 7, 4, 2, 8, 6, 1, 9, 0, 3}; 
+sort(s.begin(), s.end(), customLess);
+\end{lstlisting}
+
+
+\subsection{Longest increasing subsequence}
+\lstinputlisting{parts/longest-increasing-subsequence.cpp}
 
 \subsection{Code snippets}
 
@@ -754,6 +817,7 @@ filetype plugin indent on
 
 set number
 set tabstop=4
+set shiftwidth=4
 \end{lstlisting}
 
 
@@ -779,6 +843,17 @@ typedef priority_queue<int> pq;
 zet alle elementen ven een (multi-dimentionale) array naar $value$:
 \begin{lstlisting}
 memset(array, value, sizeof array);
+\end{lstlisting}
+of voor longs
+\begin{lstlisting}
+void memset64( void * dest, uint64_t value, uintptr_t size ){
+	uintptr_t i;
+	for( i = 0; i < (size & (~7)); i+=8 ){
+		memcpy( ((char*)dest) + i, &value, 8 );
+	}
+	for( ; i < size; i++ ){
+		((char*)dest)[i] = ((char*)&value)[i&7];
+}	}
 \end{lstlisting}
 
 geef eendecimale precisie voor cout ($n=4$ geeft $\pi = 3.1415$)
@@ -807,78 +882,6 @@ for (i = 0; i < i_max ; ++i) {
 			//do something for each element in subset
 }	}	}
 \end{lstlisting}
-
-
-\subsection{Binairy search}
-binairy search (voor een funcie \emph{can} die \emph{false} is voor $x < ans$ en \emph{true} voor $x\geq ans$)
-
-\begin{lstlisting}
-bool can(double x){
-	//test is x is a solution (or larger that the solution)
-}
-...
-//instide main()
-	double lo = 0.0, hi = 100000.0, mid = 0.0, ans = 0.0;
-	double eps = 0.01;
-	
-	while(fabs(hi-lo) > eps){
-		mid = (lo + hi) / 2.0;
-		if(can(mid)) {ans = mid; high = mid;} 
-		//save the answer, look for smaller solution
-		else {lo = mid;} //look for larger solution
-	}
-\end{lstlisting}
-sort using a custom function object
-\begin{lstlisting}
-struct {
-	bool operator()(int a, int b) const{   
-		return a < b;
-	}   
-} customLess;
-
-array<int, 10> s = {5, 7, 4, 2, 8, 6, 1, 9, 0, 3}; 
-sort(s.begin(), s.end(), customLess);
-\end{lstlisting}
-
-\subsection{Depth-first search and breadth-first search}
-
-een AdjMat is af te raden bij meer dan 1000 knopen
-
-DFS (\bigO{V+E} en \bigO{V^2})
-\begin{lstlisting}
-vector<vi> AdjList //Adjacency list
-
-vi dfs_num; //set all values to UNVISITED
-void dfs(int u){
-	ii v;
-	dfs_num[u] = VISITED;
-	for(int j = 0; j < AdjList[u].size(); j++){
-		v = AdjList[u][j];
-		if (dfs_num[v] == UNVISITED){
-			dfs(v);DFS
-}	}	}
-\end{lstlisting}
-
-BFS (\bigO{V+E} en \bigO{V^2})
-
-\begin{lstlisting}
-vector<vi> AdjList //Adjacency list
-vi d(V, INF); d[s] = 0;
-queue<int> q; q.push(s);
-int u,v;
-while(!q.empty()){
-	u = q.front(); q.pop(); // get the first element from our queue
-	for(int j = 0; j < AdjList[u].size(); j++){
-		v = AdjList[u][j]
-		if(d[v] == INF){ //test if unvisited
-			d[v] = d[u] + 1; //mark our visit
-			q.push(v);
-}	}	}
-\end{lstlisting}
-
-
-\subsection{Longest increasing subsequence}
-\lstinputlisting{parts/longest-increasing-subsequence.cpp}
 
 \iffalse
 \subsection{data structures}
@@ -1015,4 +1018,5 @@ ku: Permission denied, are you root?
 \begin{center}
 \includegraphics[height=150px]{XKCD0722.png}
 \end{center}
+
 \end{document}
