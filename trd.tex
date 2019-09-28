@@ -215,6 +215,9 @@ Voor gerelateerde toepassingen kan het makkelijker zijn om een binaire boom met 
 Onderstaande code werkt voor het dynamische Range Minimum Query probleem. Range updates kunnen worden geimplementeerd met lazy propagation: houd bij of een segment volledig naar een bepaalde waarde ge\"updated moet worden.
 \lstinputlisting{parts/segmenttree.cpp}
 
+\subsection{Fenwick tree}
+\lstinputlisting{parts/fenwick.cc}
+
 \subsection{Minimal spanning tree}
 
 %\subsubsection{Kruskals algoritme}
@@ -357,6 +360,8 @@ for k = 1 to n {
 	}
 }
 \end{lstlisting}
+
+%TODO wellicht een leuk idee om ook Bellman-Ford hier neer te zetten
 
 \iffalse
 \subsubsection{Afwijkende applicaties}
@@ -746,6 +751,7 @@ Neem al aan dat de inputgrootte een macht van $2$ is. Bij gebruik voor integers 
 \item Lees het probleem nog eens (is de input gesoorteerd of niet?).
 \item Laat een teamgenoot het probleem herlezen.
 \item Maak je eigen testcases (wat gebeurt er als de input ergens 0 is?).
+\item Controleer je of je nodes al hebt bezocht? 
 \end{itemize}
 
 \iffalse
@@ -821,24 +827,8 @@ set shiftwidth=4
 \end{lstlisting}
 
 
-Inporteer alle staandaard pakketen:
-\begin{lstlisting}
-#include <bits/stdc++.h>
-\end{lstlisting}
-
-Typedef
-\begin{lstlisting}
-typedef pair<int,int> ii;
-typedef vector <int> vi;
-typedef vector<ii> vii;
-typedef priority_queue<int> pq;
-
-#define FOR(i,a,b) for(int i = (a); i < (b); i++)
-#define all(v) (v).begin(), (v).end()
-#define pb push_back
-#define mp make_pair
-\end{lstlisting}
-
+Template
+\lstinputlisting{parts/template.cc}
 
 zet alle elementen ven een (multi-dimentionale) array naar $value$:
 \begin{lstlisting}
@@ -987,11 +977,13 @@ break REGELNUMMER / FUNCTIENAAM (stelt een breakpoint in; de executie zal worden
 \item[\textbf{l}] list   (print de huidige regel broncode met een paar regels context)
 \end{itemize}
 
+\subsection{Priemgetallen}
+
 \includegraphics[width=\textwidth]{Selection_259}\\
 \includegraphics[width=\textwidth]{Selection_260}\\
 \includegraphics[width=\textwidth]{Selection_261}\\
 
-
+\iffalse
 \begin{center}
 \begin{lstlisting}[frame=single, numbers=none, deletekeywords={for}]
 ~$ ku
@@ -1013,6 +1005,7 @@ ku: Permission denied, are you root?
 +-------+-------+-------+ 
 \end{lstlisting}
 \end{center}
+\fi
 
 \vfill
 \begin{center}
